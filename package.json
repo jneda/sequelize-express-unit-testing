@@ -2,12 +2,12 @@
   "name": "unit-testing",
   "version": "1.0.0",
   "description": "Unit testing + Sequelize + Express practice project",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles",
     "pretest": "cross-env NODE_ENV=test npm run db:reset",
     "db:create:test": "cross-env NODE_ENV=test npx sequelize db:create",
-    "dev": "nodemon app.js",
+    "dev": "nodemon server.js",
     "db:reset": "npx sequelize db:drop && npx sequelize db:create && npx sequelize db:migrate && npx sequelize db:seed:all"
   },
   "author": "",
