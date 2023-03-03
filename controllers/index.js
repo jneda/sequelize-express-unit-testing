@@ -28,7 +28,10 @@ const getUser = async (req, res) => {
     const user = await User.findByPk(id, {
       include: { model: Item, as: "wishlist" },
     });
-    return res.status(201).json({ user });
+    if (user) return res.status(200).json({ user });
+    return res
+      .status(404)
+      .json({ error: "User with the specified ID does not exist." });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ error: error.message });
@@ -39,6 +42,10 @@ const updateUser = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const user = await User.findByPk(id);
+    if (!user)
+      return res
+        .status(404)
+        .json({ error: "User with the specified ID does not exist." });
     const updatedUser = await user.update(req.body);
     return res.status(201).json({ updatedUser });
   } catch (error) {
@@ -51,6 +58,10 @@ const deleteUser = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const user = await User.findByPk(id);
+    if (!user)
+      return res
+        .status(404)
+        .json({ error: "User with the specified ID does not exist." });
     const deletedUser = await user.destroy();
     return res.status(200).json({ deletedUser });
   } catch (error) {
